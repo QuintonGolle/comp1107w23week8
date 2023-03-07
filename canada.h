@@ -4,5 +4,5 @@
 #include <string.h>
 
 
-
+void print_provinces();
 #endif
