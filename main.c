@@ -40,9 +40,9 @@ int main(int argc, char *argv[])
     printf("4. Integer and Float Addition \n");
     printf("5. Print ASCII values of letters in a string\n");
     printf("6. Print the provinces of Canada\n");
-    printf("8. Change Machine\n");
-    printf("9. Rock Paper Scissors\n");
-    printf("10. Vigenere Cipher\n");
+    printf("7. Change Machine\n");
+    printf("8. Rock Paper Scissors\n");
+    printf("9. Vigenere Cipher\n");
 
     int selection = get_int("What is your selection?\n");
 
@@ -100,9 +100,13 @@ int main(int argc, char *argv[])
 
         case 8:
 
+        rock_paper_scissors();
+
         break;
 
         case 9:
+
+        vigenere_cipher();
 
         break;
 
@@ -230,19 +234,22 @@ void change_machine()
 {
 
     int coins[] = {25, 10, 5};
-    int coinCounts[] = {0,
-                        0,
-                        0};
+    int coinCounts[] = {0, 0, 0};
 
     float cash = get_float("\nEnter how much you are paying with: ");
     int int_cash = (int)cash;
-    int cents = cash - int_cash;
+    int cents = (cash - (float)int_cash) * 100;
 
-
-    for(int i = 0; i < 3; i++)
+    for(int i = 0; i <= 2; i++)
     {
-        
+        if(cents >= coins[i])
+        {
+            coinCounts[i] = (cents / coins[i]);
+            cents = cents - (coinCounts[i] * coins[i]);
+        }
     }
+
+    printf("\nYou get %d quarters, %d dimes and %d nickles.", coinCounts[0], coinCounts[1], coinCounts[2]);
 
 
     // TODO: Get a float from the user and return the change needed for that amount IE: 2.95
@@ -255,10 +262,45 @@ string rock_paper_scissors()
 {
     // TODO:: Query the user for an int between 1 and 3 for their choice of rock, paper scissors.
     //       Use a do while loop to guarantee their input is valid
+    int choice;
+    do 
+    {
+        choice = get_int("\nDo you choose rock, paper, or scissors? (1/2/3) ");
+    }
+    while(choice != 1 && choice != 2 && choice != 3);
+
+    int random = rand() % 30;
+
+    string ai_move;
+    if(random < 10)
+    {
+        ai_move = "rock";
+    }
+    else if(random > 10 && random < 20)
+    {
+        ai_move = "paper";
+    }
+    else
+    {
+        ai_move = "scissors";
+    }
+
+    if((choice == 1 && random > 20) || (choice == 2 && random < 10) || (choice == 3 && random < 20 && random > 10))
+    {
+        printf("\nThe AI chose %s. YOU WIN!!", ai_move);
+    }
+    else if((choice == 1 && random < 20 && random > 10) || (choice == 2 && random > 20) || (choice == 3 && random < 10))
+    {
+        printf("\nThe AI chose %s. You lose, frickin loser.", ai_move);
+    }
+    else
+    {
+        printf("\nThe AI chose %s. Its a tie!", ai_move);
+    }
 
     // Generates a pseudo random int between 0 and 29
     // Use this to determine the "AI" choice
-    int random = rand() % 30;
+    
 
     // TODO:: Write the game logic with if checks and determine who won
 }
@@ -289,6 +331,24 @@ void vigenere_cipher()
 
     string key = get_string("What is your encoding key? ");
 
+    int mess_l = strlen(message);
+    int key_l = strlen(key);
+
+    if(key_l < mess_l)
+    {
+        for(int i = 0; i < mess_l - key_l; i++)
+        {
+            key[i + key_l] = key[i];
+        }
+    }   
+
+
+    for(int i = 0; i <= mess_l; i++)
+    {
+       message[i] = vigenere_offset_letter(message[i], key[i]); 
+    }
+    
+    printf("\n%s", message);
     // TODO:: Write the for loop for the vigenere cipher
 }
 
