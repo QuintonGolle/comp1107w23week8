@@ -29,6 +29,8 @@ bool is_in_ascii_range(char ltr);
 
 char vigenere_offset_letter(char msgLtr, char keyLtr);
 
+void mario();
+
 int main(int argc, char *argv[])
 {
 
@@ -43,6 +45,7 @@ int main(int argc, char *argv[])
     printf("7. Change Machine\n");
     printf("8. Rock Paper Scissors\n");
     printf("9. Vigenere Cipher\n");
+    printf("10. Mario Stairs\n");
 
     int selection = get_int("What is your selection?\n");
 
@@ -107,6 +110,12 @@ int main(int argc, char *argv[])
         case 9:
 
         vigenere_cipher();
+
+        break;
+        
+        case 10:
+
+        mario();
 
         break;
 
@@ -384,5 +393,41 @@ bool is_in_ascii_range(char ltr)
     else
     {
         return false;
+    }
+}
+
+void mario()
+{
+    //get how many steps
+    //print off the number of spaces equal to the level - 1
+    //print off the number sign
+    //print a new line
+    //repeat for the amount of levels
+    
+    int level = get_int("\nHow many steps would you like? ");
+    int level_copy = level;
+    
+    for(int i = 0; i <= level; i++)
+    {        
+        for(int spaces = level_copy; spaces > 0; spaces--)
+        {
+            printf(" ");
+        } 
+        for(int blocks = 0; blocks < i; blocks++)
+        {            
+            printf("#");
+        }
+
+        if(level_copy == level)
+        {
+            printf("\t|>");
+        }
+        else
+        {
+            printf("\t|");
+        }
+        
+        level_copy--;
+        printf("\n");
     }
 }
