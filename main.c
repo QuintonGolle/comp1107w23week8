@@ -5,6 +5,12 @@
 #include <math.h>
 #include <ctype.h>
 
+#define COLOR_RED         "\x1b[31m"
+#define COLOR_GREEN       "\x1b[32m"
+#define COLOR_PURPLE "\x1b[35m"
+#define COLOR_RESET       "\x1b[0m"
+
+
 int modulo_testing();
 
 int integer_division_testing();
@@ -403,31 +409,68 @@ void mario()
     //print off the number sign
     //print a new line
     //repeat for the amount of levels
+
+    //start animation on the bottom step (1 above level)
+    //then move up each level till the top
+    //move horizontally until it gets to the flag
+    //move down to the bottom of the flag (level)
+    //move to the door
+    //end
+    int level;
     
-    int level = get_int("\nHow many steps would you like? ");
-    int level_copy = level;
+    do
+    {
+        level = get_int("\nHow many steps would you like? (5-20)");
+    }
+    while(level > 20 || level < 5);
+    int iterations = level * 2 + 29;
+    int iterations_max = iterations;
     
+      
+    int level_copy = level; 
     for(int i = 0; i <= level; i++)
     {        
         for(int spaces = level_copy; spaces > 0; spaces--)
         {
             printf(" ");
         } 
+        if(iterations == iterations_max)
+        {
+            
+        }
         for(int blocks = 0; blocks < i; blocks++)
         {            
-            printf("#");
+            printf(COLOR_PURPLE "#" COLOR_RESET);
         }
-
+        //prints off the flag
         if(level_copy == level)
         {
-            printf("\t|>");
+            printf("\t\t\b<|");
+        }
+        else if(level_copy != 0)
+        {
+            printf(COLOR_GREEN"\t\t|"COLOR_RESET);
         }
         else
         {
-            printf("\t|");
+            printf(COLOR_PURPLE"\t\t#"COLOR_RESET);
         }
-        
+        //prints off the top of the castle
+        if(level_copy < 6 && level_copy > 3)
+        {
+            printf(COLOR_PURPLE"\t\t #####"COLOR_RESET);
+        }
+        //prints off the bottom of the castle
+        if(level_copy < 4 && level_copy >= 0)
+        {
+            printf(COLOR_PURPLE"\t\t##   ##"COLOR_RESET);
+        }
+
         level_copy--;
         printf("\n");
     }
+    printf(COLOR_PURPLE"######################################################################\n\n\n\n\n\n"COLOR_RESET);
+        
+
+    
 }
